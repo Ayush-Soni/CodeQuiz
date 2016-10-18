@@ -1,13 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.area51.ayush.codequiz.LoginActivity">
+    android:layout_height="match_parent">
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.area51.ayush.codequiz.LoginActivity">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:ems="10"
+            android:textColor="@color/white"
+            android:id="@+id/editTextUsername"
+            android:layout_alignBaseline="@+id/textView2"
+            android:layout_alignBottom="@+id/textView2"
+            android:layout_toEndOf="@+id/textView2"
+            android:layout_marginStart="21dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/logomkra"
+            android:id="@+id/imageView3"
+            android:layout_marginBottom="258dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:textColor="@color/white"
+            android:id="@+id/editTextPassword"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_alignBottom="@+id/textViewPassword"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@+id/editTextUsername" />
+
+        <TextView
+            android:text="@string/password_text_view"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_width="wrap_content"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:id="@+id/textViewPassword"
+            android:textColor="@color/white"
+            android:layout_marginTop="54dp"
+            android:layout_below="@+id/editTextUsername"
+            android:layout_alignStart="@+id/textView2" />
+
+        <TextView
+            android:text="@string/username_text_view"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_width="wrap_content"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:textColor="@color/white"
+            android:layout_marginBottom="199dp"
+            android:id="@+id/textView2"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login_button_text"
+            android:id="@+id/login_button"
+            android:textColor="@color/colorPrimary"
+            android:background="@color/white"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+</LinearLayout>
