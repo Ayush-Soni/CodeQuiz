@@ -2,8 +2,12 @@ package com.area51.ayush.codequiz;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 /**
  * Created by Ayush on 19-10-2016.
@@ -19,7 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_QUIZZES = "Quizzes";
     private static final String TABLE_ANSWERS = "Answers";
     private static final String TABLE_QUESTIONS = "Questions";
-    private static final String TABLE_QUIZZES_TAKEN = "QuizzesTaken"
+    private static final String TABLE_QUIZZES_TAKEN = "QuizzesTaken";
 
     //Common //QUIZZES TAKEN Table columns
     private static final String KEY_QUIZ_ID = "quiz_ID";
@@ -72,7 +76,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void createUser(UserDetails userDetails) {
+    //Insert methods
+    public long createUser(UserDetails userDetails) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -81,20 +86,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_LASTNAME, userDetails.getLastName());
         contentValues.put(KEY_PASSWORD, userDetails.getPassword());
 
-        long user_id = db.insert(TABLE_USERS, null, contentValues);
+        return db.insert(TABLE_USERS, null, contentValues);
     }
 
-    public void createQuiz(QuizDetails quizDetails) {
+    public long createQuiz(QuizDetails quizDetails) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_QUIZ_ID, quizDetails.getQuizId());
         contentValues.put(KEY_QUIZ_TITLE, quizDetails.getQuizTitle());
 
-        long quiz_id = db.insert(TABLE_QUIZZES, null, contentValues);
+        return db.insert(TABLE_QUIZZES, null, contentValues);
     }
 
-    public void createQuestion(QuizQuestion quizQuestion) {
+    public long createQuestion(QuizQuestion quizQuestion) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -102,10 +107,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_QUESTION, quizQuestion.getQuestion());
         contentValues.put(KEY_QUIZ_ID, quizQuestion.getQuizId());
 
-        long question_id = db.insert(TABLE_QUESTIONS, null, contentValues);
+        return db.insert(TABLE_QUESTIONS, null, contentValues);
     }
 
-    public void createAnswer(AnswerDetails answerDetails) {
+    public long createAnswer(AnswerDetails answerDetails) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -113,18 +118,94 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_ANSWER, answerDetails.getAnswer());
         contentValues.put(KEY_QUESTION_ID, answerDetails.getQuestionId());
 
-        long question_id = db.insert(TABLE_ANSWERS, null, contentValues);
+        return db.insert(TABLE_ANSWERS, null, contentValues);
     }
 
-    public void createQuizTaken(QuizzesTaken quizzesTaken) {
+    public long createQuizTaken(QuizzesTaken quizzesTaken) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_USERNAME, quizzesTaken.getUsername());
         contentValues.put(KEY_QUIZ_ID, quizzesTaken.getQuizId());
 
-        long question_id = db.insert(TABLE_QUIZZES_TAKEN, null, contentValues);
+        return db.insert(TABLE_QUIZZES_TAKEN, null, contentValues);
     }
 
+    //Getter methods
+    public ArrayList<UserDetails> getAllUserDetails() {
+        ArrayList<UserDetails> allUserDetails = new ArrayList<>();
+        String selectAllFromUserDetails = "SELECT * FROM "+TABLE_USERS;
+        Log.e(LOG, selectAllFromUserDetails);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectAllFromUserDetails, null);
+        if(c.moveToFirst()) {
+            do {
+                UserDetails userDetails = new UserDetails();
+                userDetails.setUsername(c.getString(c.getColumnIndex(KEY_USERNAME)));
+                userDetails.setFirstName(c.getString(c.getColumnIndex(KEY_FIRSTNAME)));
+                userDetails.setLastName(c.getString(c.getColumnIndex(KEY_LASTNAME)));
+                userDetails.setPassword(c.getString(c.getColumnIndex(KEY_PASSWORD)));
+                allUserDetails.add(userDetails);
+            }while(c.moveToNext());
+            c.close();
+        }
+        return allUserDetails;
+    }
 
+    public UserDetails getUserDetails(String username) {
+        String selectSpecificUser = "SELECT * FROM "+TABLE_USERS+" WHERE "+KEY_USERNAME+" = '"+username+"'";
+        Log.e(LOG, selectSpecificUser);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectSpecificUser, null);
+        if(c.moveToFirst()) {
+            UserDetails userDetails = new UserDetails();
+            userDetails.setUsername(c.getString(c.getColumnIndex(KEY_USERNAME)));
+            userDetails.setFirstName(c.getString(c.getColumnIndex(KEY_FIRSTNAME)));
+            userDetails.setLastName(c.getString(c.getColumnIndex(KEY_LASTNAME)));
+            userDetails.setPassword(c.getString(c.getColumnIndex(KEY_PASSWORD)));
+            c.close();
+            return userDetails;
+        }
+        else return null;
+    }
+
+    public ArrayList<QuizQuestion> getAllQuestionsOfQuiz(int quiz_id) {
+        String selectAllQuestionsOfQuiz = "SELECT * FROM "+TABLE_QUESTIONS+" WHERE "+KEY_QUESTION_ID+" = "+quiz_id;
+        ArrayList<QuizQuestion> allQuestionsOfQuiz = new ArrayList<>();
+        Log.e(LOG, selectAllQuestionsOfQuiz);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectAllQuestionsOfQuiz, null);
+        if(c.moveToFirst()) {
+            do{
+                QuizQuestion quizQuestion = new QuizQuestion();
+                quizQuestion.setQuestion(c.getString(c.getColumnIndex(KEY_QUESTION)));
+                quizQuestion.setQuestionId(c.getInt(c.getColumnIndex(KEY_QUESTION_ID)));
+                quizQuestion.setQuizId(c.getInt(c.getColumnIndex(KEY_QUIZ_ID)));
+                allQuestionsOfQuiz.add(quizQuestion);
+            }while(c.moveToNext());
+            c.close();
+        }
+        else return null;
+        return allQuestionsOfQuiz;
+    }
+
+    public ArrayList<QuizDetails> getAllQuizzes() {
+        String selectAllQuizzes = "SELECT * FROM "+TABLE_QUIZZES;
+        ArrayList<QuizDetails> allQuizDetails = new ArrayList<>();
+        Log.e(LOG, selectAllQuizzes);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectAllQuizzes, null);
+        if(c.moveToFirst()) {
+            do{
+                QuizDetails quizDetails = new QuizDetails();
+                quizDetails.setQuizTitle(c.getString(c.getColumnIndex(KEY_QUIZ_TITLE)));
+                quizDetails.setQuizId(c.getInt(c.getColumnIndex(KEY_QUIZ_ID)));
+                allQuizDetails.add(quizDetails);
+            }while(c.moveToNext());
+            c.close();
+        }
+        else return null;
+        return allQuizDetails;
+    }
+    
 }

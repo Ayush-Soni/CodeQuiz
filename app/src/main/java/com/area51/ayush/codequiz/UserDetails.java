@@ -32,6 +32,10 @@ public class UserDetails {
         quizzesTaken = qTaken;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public void setFirstName(String fName) {
         firstName = fName;
     }
