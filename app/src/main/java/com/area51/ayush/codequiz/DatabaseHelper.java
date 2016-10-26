@@ -46,11 +46,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_ANSWER = "answer";
 
     //Table create statements
-    private static final String CREATE_TABLE_USERS = "CREATE TABLE "+TABLE_USERS+"("+KEY_USERNAME+" TEXT PRIMARY KEY, "+KEY_FIRSTNAME+" TEXT, "+KEY_LASTNAME+" TEXT, "+KEY_PASSWORD+" TEXT)";
-    private static final String CREATE_TABLE_QUIZZES = "CREATE TABLE "+TABLE_QUIZZES+"("+KEY_QUIZ_ID+" INTEGER PRIMARY KEY, "+KEY_QUIZ_TITLE+" TEXT)";
-    private static final String CREATE_TABLE_QUESTIONS = "CREATE TABLE "+TABLE_QUESTIONS+"("+KEY_QUESTION_ID+" INTEGER PRIMARY KEY, "+KEY_QUESTION+" TEXT, "+KEY_QUIZ_ID+" INTEGER FOREIGN KEY REFERENCES "+ TABLE_QUIZZES+"("+KEY_QUIZ_ID+"))";
-    private static final String CREATE_TABLE_ANSWERS = "CREATE TABLE "+TABLE_ANSWERS+"("+KEY_ANSWER_ID+" INTEGER PRIMARY KEY, "+KEY_ANSWER+" TEXT, "+KEY_QUESTION_ID+" INTEGER REFERENCES "+TABLE_QUESTIONS+"("+KEY_QUESTION_ID+")";
-    private static final String CREATE_TABLE_QUIZZES_TAKEN = "CREATE TABLE "+TABLE_QUIZZES_TAKEN+"("+KEY_USERNAME+" TEXT FOREIGN KEY REFERENCES "+TABLE_USERS+"("+KEY_USERNAME+"), "+KEY_QUIZ_ID+" INTEGER FOREIGN KEY REFERENCES "+ TABLE_QUIZZES+"("+KEY_QUIZ_ID+"))";
+    private static final String CREATE_TABLE_USERS = "CREATE TABLE " + TABLE_USERS + "(" + KEY_USERNAME + " TEXT PRIMARY KEY, " + KEY_FIRSTNAME + " TEXT, " + KEY_LASTNAME + " TEXT, " + KEY_PASSWORD + " TEXT)";
+    private static final String CREATE_TABLE_QUIZZES = "CREATE TABLE " + TABLE_QUIZZES + "(" + KEY_QUIZ_ID + " INTEGER PRIMARY KEY, " + KEY_QUIZ_TITLE + " TEXT)";
+    private static final String CREATE_TABLE_QUESTIONS = "CREATE TABLE " + TABLE_QUESTIONS + "(" + KEY_QUESTION_ID + " INTEGER PRIMARY KEY, " + KEY_QUESTION + " TEXT, " + KEY_QUIZ_ID + " INTEGER, FOREIGN KEY " + KEY_QUIZ_ID + "REFERENCES " + TABLE_QUIZZES + "(" + KEY_QUIZ_ID + "))";
+    private static final String CREATE_TABLE_ANSWERS = "CREATE TABLE " + TABLE_ANSWERS + "(" + KEY_ANSWER_ID + " INTEGER PRIMARY KEY, " + KEY_ANSWER + " TEXT, " + KEY_QUESTION_ID + " INTEGER REFERENCES " + TABLE_QUESTIONS + "(" + KEY_QUESTION_ID + ")";
+    private static final String CREATE_TABLE_QUIZZES_TAKEN = "CREATE TABLE " + TABLE_QUIZZES_TAKEN + "(" + KEY_USERNAME + " TEXT FOREIGN KEY REFERENCES " + TABLE_USERS + "(" + KEY_USERNAME + "), " + KEY_QUIZ_ID + " INTEGER, FOREIGN KEY " + KEY_QUIZ_ID + " REFERENCES " + TABLE_QUIZZES + "(" + KEY_QUIZ_ID + "))";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -134,11 +134,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Getter methods
     public ArrayList<UserDetails> getAllUserDetails() {
         ArrayList<UserDetails> allUserDetails = new ArrayList<>();
-        String selectAllFromUserDetails = "SELECT * FROM "+TABLE_USERS;
+        String selectAllFromUserDetails = "SELECT * FROM " + TABLE_USERS;
         Log.e(LOG, selectAllFromUserDetails);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectAllFromUserDetails, null);
-        if(c.moveToFirst()) {
+        if (c.moveToFirst()) {
             do {
                 UserDetails userDetails = new UserDetails();
                 userDetails.setUsername(c.getString(c.getColumnIndex(KEY_USERNAME)));
@@ -146,18 +146,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 userDetails.setLastName(c.getString(c.getColumnIndex(KEY_LASTNAME)));
                 userDetails.setPassword(c.getString(c.getColumnIndex(KEY_PASSWORD)));
                 allUserDetails.add(userDetails);
-            }while(c.moveToNext());
+            } while (c.moveToNext());
             c.close();
         }
         return allUserDetails;
     }
 
     public UserDetails getUserDetails(String username) {
-        String selectSpecificUser = "SELECT * FROM "+TABLE_USERS+" WHERE "+KEY_USERNAME+" = '"+username+"'";
+        String selectSpecificUser = "SELECT * FROM " + TABLE_USERS + " WHERE " + KEY_USERNAME + " = '" + username + "'";
         Log.e(LOG, selectSpecificUser);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectSpecificUser, null);
-        if(c.moveToFirst()) {
+        if (c.moveToFirst()) {
             UserDetails userDetails = new UserDetails();
             userDetails.setUsername(c.getString(c.getColumnIndex(KEY_USERNAME)));
             userDetails.setFirstName(c.getString(c.getColumnIndex(KEY_FIRSTNAME)));
@@ -165,47 +165,49 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             userDetails.setPassword(c.getString(c.getColumnIndex(KEY_PASSWORD)));
             c.close();
             return userDetails;
-        }
-        else return null;
+        } else return null;
     }
 
     public ArrayList<QuizQuestion> getAllQuestionsOfQuiz(int quiz_id) {
-        String selectAllQuestionsOfQuiz = "SELECT * FROM "+TABLE_QUESTIONS+" WHERE "+KEY_QUESTION_ID+" = "+quiz_id;
+        String selectAllQuestionsOfQuiz = "SELECT * FROM " + TABLE_QUESTIONS + " WHERE " + KEY_QUESTION_ID + " = " + quiz_id;
         ArrayList<QuizQuestion> allQuestionsOfQuiz = new ArrayList<>();
         Log.e(LOG, selectAllQuestionsOfQuiz);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectAllQuestionsOfQuiz, null);
-        if(c.moveToFirst()) {
-            do{
+        if (c.moveToFirst()) {
+            do {
                 QuizQuestion quizQuestion = new QuizQuestion();
                 quizQuestion.setQuestion(c.getString(c.getColumnIndex(KEY_QUESTION)));
                 quizQuestion.setQuestionId(c.getInt(c.getColumnIndex(KEY_QUESTION_ID)));
                 quizQuestion.setQuizId(c.getInt(c.getColumnIndex(KEY_QUIZ_ID)));
                 allQuestionsOfQuiz.add(quizQuestion);
-            }while(c.moveToNext());
+            } while (c.moveToNext());
             c.close();
-        }
-        else return null;
+        } else return null;
         return allQuestionsOfQuiz;
     }
 
     public ArrayList<QuizDetails> getAllQuizzes() {
-        String selectAllQuizzes = "SELECT * FROM "+TABLE_QUIZZES;
+        String selectAllQuizzes = "SELECT * FROM " + TABLE_QUIZZES;
         ArrayList<QuizDetails> allQuizDetails = new ArrayList<>();
         Log.e(LOG, selectAllQuizzes);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectAllQuizzes, null);
-        if(c.moveToFirst()) {
-            do{
+        if (c.moveToFirst()) {
+            do {
                 QuizDetails quizDetails = new QuizDetails();
                 quizDetails.setQuizTitle(c.getString(c.getColumnIndex(KEY_QUIZ_TITLE)));
                 quizDetails.setQuizId(c.getInt(c.getColumnIndex(KEY_QUIZ_ID)));
                 allQuizDetails.add(quizDetails);
-            }while(c.moveToNext());
+            } while (c.moveToNext());
             c.close();
-        }
-        else return null;
+        } else return null;
         return allQuizDetails;
     }
-    
+
+    public void closeDB() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db != null && db.isOpen())
+            db.close();
+    }
 }

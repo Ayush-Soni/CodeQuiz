@@ -1,5 +1,6 @@
 package com.area51.ayush.codequiz;
 
+import android.content.Intent;
 import android.database.sqlite.*;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.widget.Button;
 
 public class LoginActivity extends AppCompatActivity {
     Button loginButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +21,9 @@ public class LoginActivity extends AppCompatActivity {
                 //Get username
                 //Get password
                 //Authenticate and start activity displaying topics
+                Intent i = new Intent(LoginActivity.this, QuizListActivity.class);
+                startActivity(i);
+                finish();
             }
         });
     }
