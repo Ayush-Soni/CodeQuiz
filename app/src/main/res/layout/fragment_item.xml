@@ -7,7 +7,6 @@
         android:layout_height="wrap_content"
     android:padding="20dp"
     card_view:cardBackgroundColor="@color/colorPrimary"
-    card_view:theme="@style/Theme.AppCompat.DayNight"
     card_view:cardElevation="@dimen/cardview_default_elevation"
     android:layout_margin="7dp"
         card_view:cardCornerRadius="10dp">

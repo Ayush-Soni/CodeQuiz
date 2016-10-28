@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="20dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.area51.ayush.codequiz.Quiz"
+    tools:showIn="@layout/activity_quiz">
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/optionsRadioGroup"
+        android:orientation="vertical">
+        <RadioButton
+            android:layout_width="match_parent"
+            android:buttonTint="@color/colorPrimary"
+            android:padding="20dp"
+            android:text="@string/coming_soon"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:layout_width="match_parent"
+            android:text="@string/coming_soon"
+            android:padding="20dp"
+            android:buttonTint="@color/colorPrimary"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:layout_width="match_parent"
+            android:text="@string/coming_soon"
+            android:padding="20dp"
+            android:buttonTint="@color/colorPrimary"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:layout_width="match_parent"
+            android:text="@string/coming_soon"
+            android:padding="20dp"
+            android:buttonTint="@color/colorPrimary"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+
+</android.support.v4.widget.NestedScrollView>

@@ -6,6 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EdgeEffect;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
     Button loginButton;
@@ -18,12 +22,17 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Get username
-                //Get password
-                //Authenticate and start activity displaying topics
-                Intent i = new Intent(LoginActivity.this, QuizListActivity.class);
-                startActivity(i);
-                finish();
+                EditText editTextUsername = (EditText) findViewById(R.id.editTextUsername);
+                EditText editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+                String specifiedUsername = editTextUsername.getText().toString();
+                if((editTextPassword.getText().toString()).equals((new DatabaseHelper(getApplicationContext())).getUserDetails(specifiedUsername).getPassword())) {
+                    Intent i = new Intent(LoginActivity.this, QuizListActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Invalid credentials. Try Again.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

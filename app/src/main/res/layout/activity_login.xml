@@ -94,6 +94,7 @@
             android:text="@string/login_button_text"
             android:id="@+id/login_button"
             android:textColor="@color/colorPrimary"
+            android:theme="@style/MyButtonLogin"
             android:background="@color/white"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true" />

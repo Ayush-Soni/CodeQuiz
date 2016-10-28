@@ -1,5 +1,6 @@
 package com.area51.ayush.codequiz;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -30,5 +31,8 @@ public class QuizListActivity extends AppCompatActivity implements ItemFragment.
     @Override
     public void onListFragmentInteraction(QuizDetails item) {
         Log.d("Quiz list","Selected item: " + item);
+        Intent intent = new Intent(QuizListActivity.this, Quiz.class);
+        intent.putExtra("quizID",item.getQuizId());
+        startActivity(intent);
     }
 }

@@ -20,6 +20,10 @@
         <activity
             android:name=".QuizListActivity"
             android:label="@string/title_activity_quiz_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Quiz"
+            android:label="@string/title_activity_quiz"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
