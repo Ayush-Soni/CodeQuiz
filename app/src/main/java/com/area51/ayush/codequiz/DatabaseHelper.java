@@ -48,9 +48,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Table create statements
     private static final String CREATE_TABLE_USERS = "CREATE TABLE " + TABLE_USERS + "(" + KEY_USERNAME + " TEXT PRIMARY KEY, " + KEY_FIRSTNAME + " TEXT, " + KEY_LASTNAME + " TEXT, " + KEY_PASSWORD + " TEXT)";
     private static final String CREATE_TABLE_QUIZZES = "CREATE TABLE " + TABLE_QUIZZES + "(" + KEY_QUIZ_ID + " INTEGER PRIMARY KEY, " + KEY_QUIZ_TITLE + " TEXT)";
-    private static final String CREATE_TABLE_QUESTIONS = "CREATE TABLE " + TABLE_QUESTIONS + "(" + KEY_QUESTION_ID + " INTEGER PRIMARY KEY, " + KEY_QUESTION + " TEXT, " + KEY_QUIZ_ID + " INTEGER, FOREIGN KEY " + KEY_QUIZ_ID + "REFERENCES " + TABLE_QUIZZES + "(" + KEY_QUIZ_ID + "))";
-    private static final String CREATE_TABLE_ANSWERS = "CREATE TABLE " + TABLE_ANSWERS + "(" + KEY_ANSWER_ID + " INTEGER PRIMARY KEY, " + KEY_ANSWER + " TEXT, " + KEY_QUESTION_ID + " INTEGER REFERENCES " + TABLE_QUESTIONS + "(" + KEY_QUESTION_ID + ")";
-    private static final String CREATE_TABLE_QUIZZES_TAKEN = "CREATE TABLE " + TABLE_QUIZZES_TAKEN + "(" + KEY_USERNAME + " TEXT FOREIGN KEY REFERENCES " + TABLE_USERS + "(" + KEY_USERNAME + "), " + KEY_QUIZ_ID + " INTEGER, FOREIGN KEY " + KEY_QUIZ_ID + " REFERENCES " + TABLE_QUIZZES + "(" + KEY_QUIZ_ID + "))";
+    private static final String CREATE_TABLE_QUESTIONS = "CREATE TABLE " + TABLE_QUESTIONS + "(" + KEY_QUESTION_ID + " INTEGER PRIMARY KEY, " + KEY_QUESTION + " TEXT, " + KEY_QUIZ_ID + " INTEGER)"; //, FOREIGN KEY " + KEY_QUIZ_ID + " REFERENCES " + TABLE_QUIZZES + "(" + KEY_QUIZ_ID + ")
+    private static final String CREATE_TABLE_ANSWERS = "CREATE TABLE " + TABLE_ANSWERS + "(" + KEY_ANSWER_ID + " INTEGER PRIMARY KEY, " + KEY_ANSWER + " TEXT, " + KEY_QUESTION_ID + " INTEGER)";
+    private static final String CREATE_TABLE_QUIZZES_TAKEN = "CREATE TABLE " + TABLE_QUIZZES_TAKEN + "(" + KEY_USERNAME + " TEXT, " + KEY_QUIZ_ID + " INTEGER)";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -63,6 +63,82 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_QUESTIONS);
         db.execSQL(CREATE_TABLE_ANSWERS);
         db.execSQL(CREATE_TABLE_QUIZZES_TAKEN);
+
+        /*Creating five users*/
+        UserDetails userDetails1 = new UserDetails("ayushsoni","Ayush","Soni","aysoni",null);
+        UserDetails userDetails2 = new UserDetails("akshatvora","Akshat","Vora","akvora",null);
+        UserDetails userDetails3 = new UserDetails("aishbhutra","Aishwarya","Bhutra","aibhutra",null);
+        UserDetails userDetails4 = new UserDetails("sakigarg","Saksham","Garg","sagarg",null);
+        UserDetails userDetails5 = new UserDetails("reubenjohn","Reuben","John","rejohn",null);
+
+        /*Creating five quiz topics*/
+        QuizDetails quizDetails1 = new QuizDetails(1000,"BackTracking");
+        QuizDetails quizDetails2 = new QuizDetails(1001,"Binary Search");
+        QuizDetails quizDetails3 = new QuizDetails(1002,"Bubble Sort");
+        QuizDetails quizDetails4 = new QuizDetails(1003,"Dynamic Programming");
+        QuizDetails quizDetails5 = new QuizDetails(1004,"Greedy Algorithms");
+
+        /*Creating Quiz Questions for the five quizzes, three in each*/
+        QuizQuestion quizQuestionBacktracking1 = new QuizQuestion(1000,1,"Which of the following is not a backtracking algorithm? ");
+
+        QuizQuestion quizQuestionBinarySearch1 = new QuizQuestion(1001,4,"What is the time complexity of binary search? ");
+
+        QuizQuestion quizQuestionBubbleSort1 = new QuizQuestion(1002,7,"What is the best time complexity of bubble sort? ");
+        QuizQuestion quizQuestionBubbleSort2 = new QuizQuestion(1002,8,"Assume that we use Bubble Sort to sort n distinct elements in ascending order. When does the best case of Bubble sort occur? ");
+        QuizQuestion quizQuestionBubbleSort3 = new QuizQuestion(1002,9,"What is the worst case time complexity of Bubble Sort? ");
+
+        QuizQuestion quizQuestionDynamicProgramming1 = new QuizQuestion(1003,10,"Which of the following standard algorithms is not Dynamic Programming based? ");
+        QuizQuestion quizQuestionDynamicProgramming2 = new QuizQuestion(1003,11,"We use Dynamic Programming approach when? ");
+        QuizQuestion quizQuestionDynamicProgramming3 = new QuizQuestion(1003,12,"Kadane's algorithm is used to find? ");
+
+        QuizQuestion quizQuestionGreedyAlgorithms1 = new QuizQuestion(1004,13,"Which of the following standard algorithms is not a greedy algorithm? ");
+        QuizQuestion quizQuestionGreedyAlgorithms2 = new QuizQuestion(1004,14,"What is the time complexity of Huffman Coding? ");
+        QuizQuestion quizQuestionGreedyAlgorithms3 = new QuizQuestion(1004,15,"Which of the following is true about Kruskal and Prim MST algorithms? Assume that Prim is implemented for adjacency list representation using Binary Heap and Kruskal is implemented using union by rank. ");
+
+        /*Creating answers for questions*/
+        AnswerDetails answerDetailsBacktracking11 = new AnswerDetails(1,1,"Knight tour problem");
+        AnswerDetails answerDetailsBacktracking12 = new AnswerDetails(2,1,"N queen's problem");
+        AnswerDetails answerDetailsBacktracking13 = new AnswerDetails(3,1,"Tower of Hanoi");
+        AnswerDetails answerDetailsBacktracking14 = new AnswerDetails(4,1,"M coloring problem");
+
+        AnswerDetails answerDetailsBinarySearch11 = new AnswerDetails(5,2,"O(n)");
+        AnswerDetails answerDetailsBinarySearch12 = new AnswerDetails(6,2,"O(nLog(n))");
+        AnswerDetails answerDetailsBinarySearch13 = new AnswerDetails(7,2,"O(n^2)");
+        AnswerDetails answerDetailsBinarySearch14 = new AnswerDetails(8,2,"O(n(Log(n))^2");
+
+        /*Inserting now...*/
+        createUser(userDetails1);
+        createUser(userDetails2);
+        createUser(userDetails3);
+        createUser(userDetails4);
+        createUser(userDetails5);
+
+        createQuiz(quizDetails1);
+        createQuiz(quizDetails2);
+        createQuiz(quizDetails3);
+        createQuiz(quizDetails4);
+        createQuiz(quizDetails5);
+
+        createQuestion(quizQuestionBacktracking1);
+        createQuestion(quizQuestionBinarySearch1);
+        createQuestion(quizQuestionBubbleSort1);
+        createQuestion(quizQuestionBubbleSort2);
+        createQuestion(quizQuestionBubbleSort3);
+        createQuestion(quizQuestionDynamicProgramming1);
+        createQuestion(quizQuestionDynamicProgramming2);
+        createQuestion(quizQuestionDynamicProgramming3);
+        createQuestion(quizQuestionGreedyAlgorithms1);
+        createQuestion(quizQuestionGreedyAlgorithms2);
+        createQuestion(quizQuestionGreedyAlgorithms3);
+
+        createAnswer(answerDetailsBacktracking11);
+        createAnswer(answerDetailsBacktracking12);
+        createAnswer(answerDetailsBacktracking13);
+        createAnswer(answerDetailsBacktracking14);
+        createAnswer(answerDetailsBinarySearch11);
+        createAnswer(answerDetailsBinarySearch12);
+        createAnswer(answerDetailsBinarySearch13);
+        createAnswer(answerDetailsBinarySearch14);
     }
 
     @Override
