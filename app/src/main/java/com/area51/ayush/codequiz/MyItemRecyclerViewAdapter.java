@@ -36,7 +36,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getQuizId());
+        holder.mIdView.setText("Topic ID: "+Integer.toString(mValues.get(position).getQuizId()));
         holder.mContentView.setText(mValues.get(position).getQuizTitle());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +66,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
+            mIdView = (TextView) view.findViewById(R.id.m_id_text_view);
             mContentView = (TextView) view.findViewById(R.id.content);
         }
 

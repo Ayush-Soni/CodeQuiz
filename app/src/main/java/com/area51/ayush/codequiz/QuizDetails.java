@@ -14,14 +14,14 @@ public class QuizDetails {
 
     public QuizDetails(int qId, String qTitle) {
         quizId = qId;
-        qTitle = quizTitle;
+        quizTitle = qTitle;
     }
 
     public void setQuizId(int qId) {
         quizId = qId;
     }
 
-    public int getQuizId(){
+    public int getQuizId() {
         return quizId;
     }
 

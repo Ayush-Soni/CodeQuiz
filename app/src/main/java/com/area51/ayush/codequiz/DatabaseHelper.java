@@ -48,9 +48,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Table create statements
     private static final String CREATE_TABLE_USERS = "CREATE TABLE " + TABLE_USERS + "(" + KEY_USERNAME + " TEXT PRIMARY KEY, " + KEY_FIRSTNAME + " TEXT, " + KEY_LASTNAME + " TEXT, " + KEY_PASSWORD + " TEXT)";
     private static final String CREATE_TABLE_QUIZZES = "CREATE TABLE " + TABLE_QUIZZES + "(" + KEY_QUIZ_ID + " INTEGER PRIMARY KEY, " + KEY_QUIZ_TITLE + " TEXT)";
-    private static final String CREATE_TABLE_QUESTIONS = "CREATE TABLE " + TABLE_QUESTIONS + "(" + KEY_QUESTION_ID + " INTEGER PRIMARY KEY, " + KEY_QUESTION + " TEXT, " + KEY_QUIZ_ID + " INTEGER)"; //, FOREIGN KEY " + KEY_QUIZ_ID + " REFERENCES " + TABLE_QUIZZES + "(" + KEY_QUIZ_ID + ")
-    private static final String CREATE_TABLE_ANSWERS = "CREATE TABLE " + TABLE_ANSWERS + "(" + KEY_ANSWER_ID + " INTEGER PRIMARY KEY, " + KEY_ANSWER + " TEXT, " + KEY_QUESTION_ID + " INTEGER)";
-    private static final String CREATE_TABLE_QUIZZES_TAKEN = "CREATE TABLE " + TABLE_QUIZZES_TAKEN + "(" + KEY_USERNAME + " TEXT, " + KEY_QUIZ_ID + " INTEGER)";
+    private static final String CREATE_TABLE_QUESTIONS = "CREATE TABLE " + TABLE_QUESTIONS + "(" + KEY_QUESTION_ID + " INTEGER PRIMARY KEY, " + KEY_QUESTION + " TEXT, " + KEY_QUIZ_ID + " INTEGER, FOREIGN KEY (" + KEY_QUIZ_ID + ") REFERENCES " + TABLE_QUIZZES + "(" + KEY_QUIZ_ID + "))";
+    private static final String CREATE_TABLE_ANSWERS = "CREATE TABLE " + TABLE_ANSWERS + "(" + KEY_ANSWER_ID + " INTEGER PRIMARY KEY, " + KEY_ANSWER + " TEXT, " + KEY_QUESTION_ID + " INTEGER,  FOREIGN KEY (" + KEY_QUESTION_ID + ") REFERENCES " + TABLE_QUESTIONS + "(" + KEY_QUESTION_ID + "))";
+    private static final String CREATE_TABLE_QUIZZES_TAKEN = "CREATE TABLE " + TABLE_QUIZZES_TAKEN + "(" + KEY_USERNAME + " TEXT, " + KEY_QUIZ_ID + " INTEGER, FOREIGN KEY (" + KEY_QUIZ_ID + ") REFERENCES " + TABLE_QUIZZES + "(" + KEY_QUIZ_ID + "), FOREIGN KEY (" + KEY_USERNAME + ") REFERENCES " + TABLE_USERS + "(" + KEY_USERNAME + "))";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -72,7 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         UserDetails userDetails5 = new UserDetails("reubenjohn","Reuben","John","rejohn",null);
 
         /*Creating five quiz topics*/
-        QuizDetails quizDetails1 = new QuizDetails(1000,"BackTracking");
+        QuizDetails quizDetails1 = new QuizDetails(1000,"Back Tracking");
         QuizDetails quizDetails2 = new QuizDetails(1001,"Binary Search");
         QuizDetails quizDetails3 = new QuizDetails(1002,"Bubble Sort");
         QuizDetails quizDetails4 = new QuizDetails(1003,"Dynamic Programming");
@@ -107,38 +107,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         AnswerDetails answerDetailsBinarySearch14 = new AnswerDetails(8,2,"O(n(Log(n))^2");
 
         /*Inserting now...*/
-        createUser(userDetails1);
-        createUser(userDetails2);
-        createUser(userDetails3);
-        createUser(userDetails4);
-        createUser(userDetails5);
+        createUser(userDetails1, db);
+        createUser(userDetails2, db);
+        createUser(userDetails3, db);
+        createUser(userDetails4, db);
+        createUser(userDetails5, db);
 
-        createQuiz(quizDetails1);
-        createQuiz(quizDetails2);
-        createQuiz(quizDetails3);
-        createQuiz(quizDetails4);
-        createQuiz(quizDetails5);
+        createQuiz(quizDetails1, db);
+        createQuiz(quizDetails2, db);
+        createQuiz(quizDetails3, db);
+        createQuiz(quizDetails4, db);
+        createQuiz(quizDetails5, db);
 
-        createQuestion(quizQuestionBacktracking1);
-        createQuestion(quizQuestionBinarySearch1);
-        createQuestion(quizQuestionBubbleSort1);
-        createQuestion(quizQuestionBubbleSort2);
-        createQuestion(quizQuestionBubbleSort3);
-        createQuestion(quizQuestionDynamicProgramming1);
-        createQuestion(quizQuestionDynamicProgramming2);
-        createQuestion(quizQuestionDynamicProgramming3);
-        createQuestion(quizQuestionGreedyAlgorithms1);
-        createQuestion(quizQuestionGreedyAlgorithms2);
-        createQuestion(quizQuestionGreedyAlgorithms3);
+        createQuestion(quizQuestionBacktracking1, db);
+        createQuestion(quizQuestionBinarySearch1, db);
+        createQuestion(quizQuestionBubbleSort1, db);
+        createQuestion(quizQuestionBubbleSort2, db);
+        createQuestion(quizQuestionBubbleSort3, db);
+        createQuestion(quizQuestionDynamicProgramming1, db);
+        createQuestion(quizQuestionDynamicProgramming2, db);
+        createQuestion(quizQuestionDynamicProgramming3, db);
+        createQuestion(quizQuestionGreedyAlgorithms1, db);
+        createQuestion(quizQuestionGreedyAlgorithms2, db);
+        createQuestion(quizQuestionGreedyAlgorithms3, db);
 
-        createAnswer(answerDetailsBacktracking11);
-        createAnswer(answerDetailsBacktracking12);
-        createAnswer(answerDetailsBacktracking13);
-        createAnswer(answerDetailsBacktracking14);
-        createAnswer(answerDetailsBinarySearch11);
-        createAnswer(answerDetailsBinarySearch12);
-        createAnswer(answerDetailsBinarySearch13);
-        createAnswer(answerDetailsBinarySearch14);
+        createAnswer(answerDetailsBacktracking11, db);
+        createAnswer(answerDetailsBacktracking12, db);
+        createAnswer(answerDetailsBacktracking13, db);
+        createAnswer(answerDetailsBacktracking14, db);
+        createAnswer(answerDetailsBinarySearch11, db);
+        createAnswer(answerDetailsBinarySearch12, db);
+        createAnswer(answerDetailsBinarySearch13, db);
+        createAnswer(answerDetailsBinarySearch14, db);
     }
 
     @Override
@@ -153,8 +153,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //Insert methods
-    public long createUser(UserDetails userDetails) {
-        SQLiteDatabase db = this.getWritableDatabase();
+    public long createUser(UserDetails userDetails, SQLiteDatabase db) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_USERNAME, userDetails.getUsername());
@@ -165,18 +164,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert(TABLE_USERS, null, contentValues);
     }
 
-    public long createQuiz(QuizDetails quizDetails) {
-        SQLiteDatabase db = this.getWritableDatabase();
+    public long createQuiz(QuizDetails quizDetails, SQLiteDatabase db) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_QUIZ_ID, quizDetails.getQuizId());
         contentValues.put(KEY_QUIZ_TITLE, quizDetails.getQuizTitle());
-
         return db.insert(TABLE_QUIZZES, null, contentValues);
     }
 
-    public long createQuestion(QuizQuestion quizQuestion) {
-        SQLiteDatabase db = this.getWritableDatabase();
+    public long createQuestion(QuizQuestion quizQuestion, SQLiteDatabase db) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_QUESTION_ID, quizQuestion.getQuestionId());
@@ -186,8 +182,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert(TABLE_QUESTIONS, null, contentValues);
     }
 
-    public long createAnswer(AnswerDetails answerDetails) {
-        SQLiteDatabase db = this.getWritableDatabase();
+    public long createAnswer(AnswerDetails answerDetails, SQLiteDatabase db) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_ANSWER_ID, answerDetails.getAnswerId());
@@ -197,8 +192,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert(TABLE_ANSWERS, null, contentValues);
     }
 
-    public long createQuizTaken(QuizzesTaken quizzesTaken) {
-        SQLiteDatabase db = this.getWritableDatabase();
+    public long createQuizTaken(QuizzesTaken quizzesTaken, SQLiteDatabase db) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_USERNAME, quizzesTaken.getUsername());
@@ -277,7 +271,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 allQuizDetails.add(quizDetails);
             } while (c.moveToNext());
             c.close();
-        } else return null;
+        }
         return allQuizDetails;
     }
 

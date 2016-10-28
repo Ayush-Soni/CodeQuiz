@@ -5,10 +5,11 @@
     <string name="username_text_view">Username ></string>
     <string name="password_text_view">Password ></string>
     <string name="coming_soon">Coming soon...</string>
+    <string name="id">ID</string>
     <string name="login_button_text">Login</string>
     <string name="app_description">Code Quiz provides a convenient way for passionate coders to practice their coding skills, and gain knowledge on different aspects of coding. Users can take a quiz on any coding topic such as Algorithms, Data Structures, Input/Output, and assess themselves on the same. Comparing scores with friends will tell them which topics to focus on.
     \n\n Code Quiz contains quizzes on different topics, each quiz containing more than one multiple choice question. The user will be displayed his score at the end of the test. The question base is extracted from sites like GeeksForGeeks, and other such computer science portals which are dedicated to coding enthusiasts. The need for such an application becomes apparent when preparing for placement interviews. The preliminary tests of core companies such as Microsoft IT and IDC, Amazon and Directi are mostly based on Input/Output, Time Complexity etc. Any software giant highly focuses on a candidate\'s coding skills, and tests them thoroughly, asking them about different data structures and algorithms, which is what Code Quiz focuses on.</string>
     <string name="continue_button_text">Continue</string>
-    <string name="title_activity_quiz_list">QuizListActivity</string>
+    <string name="title_activity_quiz_list">Quizzes</string>
     <string name="action_settings">Settings</string>
 </resources>
