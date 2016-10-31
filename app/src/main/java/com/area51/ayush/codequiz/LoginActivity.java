@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
                 if((editTextPassword.getText().toString()).equals((new DatabaseHelper(getApplicationContext())).getUserDetails(specifiedUsername).getPassword())) {
                     Intent i = new Intent(LoginActivity.this, QuizListActivity.class);
                     startActivity(i);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     finish();
                 }
                 else {

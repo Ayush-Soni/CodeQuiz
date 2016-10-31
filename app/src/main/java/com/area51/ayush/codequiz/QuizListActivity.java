@@ -34,5 +34,6 @@ public class QuizListActivity extends AppCompatActivity implements ItemFragment.
         Intent intent = new Intent(QuizListActivity.this, Quiz.class);
         intent.putExtra("quizID",item.getQuizId());
         startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

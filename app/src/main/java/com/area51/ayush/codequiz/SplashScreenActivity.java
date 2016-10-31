@@ -22,6 +22,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 /* Create an Intent that will start the Menu-Activity. */
                     Intent mainIntent = new Intent(SplashScreenActivity.this,ApplicationDescriptionActivity.class);
                     SplashScreenActivity.this.startActivity(mainIntent);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     SplashScreenActivity.this.finish();
                 }
             }, SPLASH_DISPLAY_LENGTH);

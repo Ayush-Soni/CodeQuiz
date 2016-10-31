@@ -101,10 +101,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         AnswerDetails answerDetailsBacktracking13 = new AnswerDetails(3,1,"Tower of Hanoi");
         AnswerDetails answerDetailsBacktracking14 = new AnswerDetails(4,1,"M coloring problem");
 
-        AnswerDetails answerDetailsBinarySearch11 = new AnswerDetails(5,2,"O(n)");
-        AnswerDetails answerDetailsBinarySearch12 = new AnswerDetails(6,2,"O(nLog(n))");
-        AnswerDetails answerDetailsBinarySearch13 = new AnswerDetails(7,2,"O(n^2)");
-        AnswerDetails answerDetailsBinarySearch14 = new AnswerDetails(8,2,"O(n(Log(n))^2");
+        AnswerDetails answerDetailsBinarySearch11 = new AnswerDetails(5,4,"O(n)");
+        AnswerDetails answerDetailsBinarySearch12 = new AnswerDetails(6,4,"O(nLog(n))");
+        AnswerDetails answerDetailsBinarySearch13 = new AnswerDetails(7,4,"O(n^2)");
+        AnswerDetails answerDetailsBinarySearch14 = new AnswerDetails(8,4,"O(n(Log(n))^2");
 
         /*Inserting now...*/
         createUser(userDetails1, db);
@@ -235,11 +235,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             userDetails.setPassword(c.getString(c.getColumnIndex(KEY_PASSWORD)));
             c.close();
             return userDetails;
-        } else return null;
+        }
+        else return (new UserDetails());
     }
 
     public ArrayList<QuizQuestion> getAllQuestionsOfQuiz(int quiz_id) {
-        String selectAllQuestionsOfQuiz = "SELECT * FROM " + TABLE_QUESTIONS + " WHERE " + KEY_QUESTION_ID + " = " + quiz_id;
+        String selectAllQuestionsOfQuiz = "SELECT * FROM " + TABLE_QUESTIONS + " WHERE " + KEY_QUIZ_ID + " = " + quiz_id;
         ArrayList<QuizQuestion> allQuestionsOfQuiz = new ArrayList<>();
         Log.e(LOG, selectAllQuestionsOfQuiz);
         SQLiteDatabase db = this.getReadableDatabase();
@@ -253,7 +254,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 allQuestionsOfQuiz.add(quizQuestion);
             } while (c.moveToNext());
             c.close();
-        } else return null;
+        }
         return allQuestionsOfQuiz;
     }
 
@@ -273,6 +274,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             c.close();
         }
         return allQuizDetails;
+    }
+
+    public ArrayList<AnswerDetails> getAnswersForQuestion(int questionId) {
+        String selectAnswersForQuestion = "SELECT * FROM "+TABLE_ANSWERS+" WHERE "+ KEY_QUESTION_ID + " = "+questionId;
+        ArrayList<AnswerDetails> allAnswersForQuestion = new ArrayList<>();
+        Log.e(LOG, selectAnswersForQuestion);
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(selectAnswersForQuestion, null);
+        if(c.moveToFirst()) {
+            do {
+                AnswerDetails answerDetails = new AnswerDetails();
+                answerDetails.setQuestionId(questionId);
+                answerDetails.setAnswer(c.getString(c.getColumnIndex(KEY_ANSWER)));
+                answerDetails.setAnswerId(c.getInt(c.getColumnIndex(KEY_ANSWER_ID)));
+                allAnswersForQuestion.add(answerDetails);
+            }while(c.moveToNext());
+            c.close();
+        }
+        return allAnswersForQuestion;
     }
 
     public void closeDB() {
