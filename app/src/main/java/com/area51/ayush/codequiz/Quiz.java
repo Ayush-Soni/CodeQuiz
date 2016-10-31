@@ -1,15 +1,20 @@
 package com.area51.ayush.codequiz;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -30,6 +35,8 @@ public class Quiz extends AppCompatActivity {
     CollapsingToolbarLayout collapsingToolbarLayout;
     Toolbar toolbar;
     ArrayList<QuizQuestion> allQuestionsForQuiz;
+    FloatingActionButton fab;
+    FloatingActionButton fab1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,22 +51,30 @@ public class Quiz extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.question_text_view);
         quizId = intent.getIntExtra("quizID",0);
         allQuestionsForQuiz = db.getAllQuestionsOfQuiz(quizId);
-
+        final int[] answerSelected = new int[allQuestionsForQuiz.size()];
         Log.i("","****************************Question: "+allQuestionsForQuiz.get(currentQuestionNo).getQuestion());
-        Log.i("", "***************************Current question id: "+ currentQuestionID);
+        Log.i("","****************************Current question id: "+ currentQuestionID);
+        fab = (FloatingActionButton) findViewById(R.id.fabEnd);
+        fab1 = (FloatingActionButton) findViewById(R.id.fabStart);
         if(allQuestionsForQuiz.isEmpty()) {
             Toast.makeText(getApplicationContext(), "No questions for quizId: "+ quizId, Toast.LENGTH_SHORT).show();
         }
         else {
-                if (currentQuestionNo < allQuestionsForQuiz.size()) {
-                    updateQuestion(currentQuestionNo);
-                }
+            if (currentQuestionNo < allQuestionsForQuiz.size()) {
+                updateQuestion(currentQuestionNo);
+            }
         }
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabEnd);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int checkedRadioButtonId = radioGroup.getCheckedRadioButtonId();
+                if (checkedRadioButtonId == -1) {
+                    //Do nothing
+                }
+                else{
+                    answerSelected[currentQuestionNo]=checkedRadioButtonId;
+                }
                 currentQuestionNo++;
                 if(currentQuestionNo<allQuestionsForQuiz.size()) {
                     Snackbar.make(view, "Next question.", Snackbar.LENGTH_LONG)
@@ -69,12 +84,12 @@ public class Quiz extends AppCompatActivity {
                 else {
                     Snackbar.make(view, "This is the last question.", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
+                    //********VIEW RESULT*********
                     currentQuestionNo--;
                 }
             }
         });
 
-        FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fabStart);
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,6 +124,13 @@ public class Quiz extends AppCompatActivity {
             for (int i = 0; i < radioGroup.getChildCount(); i++) {
                 ((RadioButton) radioGroup.getChildAt(i)).setText(allAnswersForQuestion.get(i).getAnswer());
             }
+        }
+
+        if(currentQuestionNo==allQuestionsForQuiz.size()-1) {
+        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#8BC34A")));
+        }
+        if(currentQuestionNo<allQuestionsForQuiz.size()-1) {
+            fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
         }
     }
 }

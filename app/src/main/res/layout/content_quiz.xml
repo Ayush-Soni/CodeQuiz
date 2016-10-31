@@ -8,7 +8,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.area51.ayush.codequiz.Quiz"
     tools:showIn="@layout/activity_quiz">
-
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -39,5 +38,4 @@
             android:buttonTint="@color/colorPrimary"
             android:layout_height="wrap_content" />
     </RadioGroup>
-
 </android.support.v4.widget.NestedScrollView>
