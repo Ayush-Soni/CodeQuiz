@@ -24,7 +24,8 @@
         <activity
             android:name=".Quiz"
             android:label="@string/title_activity_quiz"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".DisplayResultActivity"></activity>
     </application>
 
 </manifest>

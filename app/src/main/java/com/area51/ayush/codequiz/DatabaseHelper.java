@@ -109,8 +109,62 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         AnswerDetails answerDetailsBinarySearch13 = new AnswerDetails(7,4,"O(n^2)");
         AnswerDetails answerDetailsBinarySearch14 = new AnswerDetails(8,4,"O(n(Log(n))^2");
 
+        AnswerDetails answerDetailsBubbleSort11 = new AnswerDetails(9,7,"O(n(Log(n))");
+        AnswerDetails answerDetailsBubbleSort12 = new AnswerDetails(10,7,"O(n^2)");
+        AnswerDetails answerDetailsBubbleSort13 = new AnswerDetails(11,7,"O(n)");
+        AnswerDetails answerDetailsBubbleSort14 = new AnswerDetails(12,7,"O(2n)");
+
+        AnswerDetails answerDetailsBubbleSort21 = new AnswerDetails(13,8,"When the elements are sorted in ascending order");
+        AnswerDetails answerDetailsBubbleSort22 = new AnswerDetails(14,8,"When the elements are sorted in descending order");
+        AnswerDetails answerDetailsBubbleSort23 = new AnswerDetails(15,8,"When the elements are not sorted");
+        AnswerDetails answerDetailsBubbleSort24 = new AnswerDetails(16,8,"There is no best case for bubble sort");
+
+        AnswerDetails answerDetailsBubbleSort31 = new AnswerDetails(17,9,"O(n^3)");
+        AnswerDetails answerDetailsBubbleSort32 = new AnswerDetails(18,9,"O(n^2)");
+        AnswerDetails answerDetailsBubbleSort33 = new AnswerDetails(19,9,"O(n)");
+        AnswerDetails answerDetailsBubbleSort34 = new AnswerDetails(20,9,"O(2n)");
+
+        AnswerDetails answerDetailsDynamicProgramming11 = new AnswerDetails(21,10,"Bellman-Ford Algorithm for single source shortest path");
+        AnswerDetails answerDetailsDynamicProgramming12 = new AnswerDetails(22,10,"Floyd-Warshall's Algorithm for all pairs shortest path");
+        AnswerDetails answerDetailsDynamicProgramming13 = new AnswerDetails(23,10,"0-1 Knapsack problem");
+        AnswerDetails answerDetailsDynamicProgramming14 = new AnswerDetails(24,10,"Prim's minimum spanning tree");
+
+        AnswerDetails answerDetailsDynamicProgramming21 = new AnswerDetails(25,11,"It provides optimal solution");
+        AnswerDetails answerDetailsDynamicProgramming22 = new AnswerDetails(26,11,"The solution has optimal substructure");
+        AnswerDetails answerDetailsDynamicProgramming23 = new AnswerDetails(27,11,"The given problem can be reduced to 3-SAT problem");
+        AnswerDetails answerDetailsDynamicProgramming24 = new AnswerDetails(28,11,"It's faster than greedy");
+
+        AnswerDetails answerDetailsDynamicProgramming31 = new AnswerDetails(29,12,"Maximum sub-sequence in an array");
+        AnswerDetails answerDetailsDynamicProgramming32 = new AnswerDetails(30,12,"Maximum sub-array in an array");
+        AnswerDetails answerDetailsDynamicProgramming33 = new AnswerDetails(31,12,"Maximum product sub-sequence in an array");
+        AnswerDetails answerDetailsDynamicProgramming34 = new AnswerDetails(32,12,"Maximum product sub-array in an array");
+
+        AnswerDetails answerDetailsGreedyAlgorithms11 = new AnswerDetails(33,13,"Djikstra's Algorithm");
+        AnswerDetails answerDetailsGreedyAlgorithms12 = new AnswerDetails(34,13,"Prim's Algorithm");
+        AnswerDetails answerDetailsGreedyAlgorithms13 = new AnswerDetails(35,13,"Krushkal's Algorithm");
+        AnswerDetails answerDetailsGreedyAlgorithms14 = new AnswerDetails(36,13,"Bellman-Ford shortest path algorithm");
+
+        AnswerDetails answerDetailsGreedyAlgorithms21 = new AnswerDetails(37,14,"O(n)");
+        AnswerDetails answerDetailsGreedyAlgorithms22 = new AnswerDetails(38,14,"O(n(Log(n)))");
+        AnswerDetails answerDetailsGreedyAlgorithms23 = new AnswerDetails(39,14,"O(n^2)");
+        AnswerDetails answerDetailsGreedyAlgorithms24 = new AnswerDetails(40,14,"O(n(Log(n))^2)");
+
+        AnswerDetails answerDetailsGreedyAlgorithms31 = new AnswerDetails(41,15,"Worst case time complexity of both of these is same");
+        AnswerDetails answerDetailsGreedyAlgorithms32 = new AnswerDetails(42,15,"Worst case time complexity of Kruskal's is better than Prim's");
+        AnswerDetails answerDetailsGreedyAlgorithms33 = new AnswerDetails(43,15,"Worst case time complexity of Prim's is better than Kruskal's");
+        AnswerDetails answerDetailsGreedyAlgorithms34 = new AnswerDetails(44,15,"Depends on the input");
+
         QuestionAnswer questionAnswer1 = new QuestionAnswer(1,3);
         QuestionAnswer questionAnswer2 = new QuestionAnswer(4,6);
+        QuestionAnswer questionAnswer3 = new QuestionAnswer(7,11);
+        QuestionAnswer questionAnswer4 = new QuestionAnswer(8,13);
+        QuestionAnswer questionAnswer5 = new QuestionAnswer(9,18);
+        QuestionAnswer questionAnswer6 = new QuestionAnswer(10,24);
+        QuestionAnswer questionAnswer7 = new QuestionAnswer(11,26);
+        QuestionAnswer questionAnswer8 = new QuestionAnswer(12,30);
+        QuestionAnswer questionAnswer9 = new QuestionAnswer(13,36);
+        QuestionAnswer questionAnswer10 = new QuestionAnswer(14,38);
+        QuestionAnswer questionAnswer11 = new QuestionAnswer(15,41);
 
         /*Inserting now...*/
         createUser(userDetails1, db);
@@ -141,13 +195,68 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         createAnswer(answerDetailsBacktracking12, db);
         createAnswer(answerDetailsBacktracking13, db);
         createAnswer(answerDetailsBacktracking14, db);
+
         createAnswer(answerDetailsBinarySearch11, db);
         createAnswer(answerDetailsBinarySearch12, db);
         createAnswer(answerDetailsBinarySearch13, db);
         createAnswer(answerDetailsBinarySearch14, db);
 
+        createAnswer(answerDetailsBubbleSort11, db);
+        createAnswer(answerDetailsBubbleSort12, db);
+        createAnswer(answerDetailsBubbleSort13, db);
+        createAnswer(answerDetailsBubbleSort14, db);
+
+        createAnswer(answerDetailsBubbleSort21, db);
+        createAnswer(answerDetailsBubbleSort22, db);
+        createAnswer(answerDetailsBubbleSort23, db);
+        createAnswer(answerDetailsBubbleSort24, db);
+
+        createAnswer(answerDetailsBubbleSort31, db);
+        createAnswer(answerDetailsBubbleSort32, db);
+        createAnswer(answerDetailsBubbleSort33, db);
+        createAnswer(answerDetailsBubbleSort34, db);
+
+        createAnswer(answerDetailsDynamicProgramming11, db);
+        createAnswer(answerDetailsDynamicProgramming12, db);
+        createAnswer(answerDetailsDynamicProgramming13, db);
+        createAnswer(answerDetailsDynamicProgramming14, db);
+
+        createAnswer(answerDetailsDynamicProgramming21, db);
+        createAnswer(answerDetailsDynamicProgramming22, db);
+        createAnswer(answerDetailsDynamicProgramming23, db);
+        createAnswer(answerDetailsDynamicProgramming24, db);
+
+        createAnswer(answerDetailsDynamicProgramming31, db);
+        createAnswer(answerDetailsDynamicProgramming32, db);
+        createAnswer(answerDetailsDynamicProgramming33, db);
+        createAnswer(answerDetailsDynamicProgramming34, db);
+
+        createAnswer(answerDetailsGreedyAlgorithms11, db);
+        createAnswer(answerDetailsGreedyAlgorithms12, db);
+        createAnswer(answerDetailsGreedyAlgorithms13, db);
+        createAnswer(answerDetailsGreedyAlgorithms14, db);
+
+        createAnswer(answerDetailsGreedyAlgorithms21, db);
+        createAnswer(answerDetailsGreedyAlgorithms22, db);
+        createAnswer(answerDetailsGreedyAlgorithms23, db);
+        createAnswer(answerDetailsGreedyAlgorithms24, db);
+
+        createAnswer(answerDetailsGreedyAlgorithms31, db);
+        createAnswer(answerDetailsGreedyAlgorithms32, db);
+        createAnswer(answerDetailsGreedyAlgorithms33, db);
+        createAnswer(answerDetailsGreedyAlgorithms34, db);
+
         createQuestionAnswer(questionAnswer1, db);
         createQuestionAnswer(questionAnswer2, db);
+        createQuestionAnswer(questionAnswer3, db);
+        createQuestionAnswer(questionAnswer4, db);
+        createQuestionAnswer(questionAnswer5, db);
+        createQuestionAnswer(questionAnswer6, db);
+        createQuestionAnswer(questionAnswer7, db);
+        createQuestionAnswer(questionAnswer8, db);
+        createQuestionAnswer(questionAnswer9, db);
+        createQuestionAnswer(questionAnswer10, db);
+        createQuestionAnswer(questionAnswer11, db);
     }
 
     @Override
@@ -256,6 +365,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else return (new UserDetails());
     }
 
+    public String getQuizName(int quizId) {
+        String selectQuizNameFromQuizId = "SELECT * FROM "+TABLE_QUIZZES+" WHERE "+KEY_QUIZ_ID+" = "+ quizId;
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuizNameFromQuizId, null);
+        String quizName = "";
+        if(c.moveToFirst()) {
+            quizName = c.getString(c.getColumnIndex(KEY_QUIZ_TITLE));
+        }
+        c.close();
+        return quizName;
+    }
+
     public ArrayList<QuizQuestion> getAllQuestionsOfQuiz(int quiz_id) {
         String selectAllQuestionsOfQuiz = "SELECT * FROM " + TABLE_QUESTIONS + " WHERE " + KEY_QUIZ_ID + " = " + quiz_id;
         ArrayList<QuizQuestion> allQuestionsOfQuiz = new ArrayList<>();
@@ -273,6 +394,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             c.close();
         }
         return allQuestionsOfQuiz;
+    }
+
+    public String getAnswerForQuestion(int questionId) {
+        String selectAnswerForQuestion = "SELECT "+KEY_ANSWER_ID+" FROM "+TABLE_QUESTION_ANSWERS+" WHERE "+KEY_QUESTION_ID+" = " +questionId;
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(selectAnswerForQuestion, null);
+        int ansId=0;
+        if(c.moveToFirst()) {
+            ansId = c.getInt(c.getColumnIndex(KEY_ANSWER_ID));
+        }
+        c.close();
+        return getAnswerForAnswerId(ansId);
+    }
+
+    public String getAnswerForAnswerId(int answerId) {
+        String selectAnswerForAnswerId = "SELECT * FROM "+TABLE_ANSWERS+" WHERE "+KEY_ANSWER_ID+" = "+answerId;
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(selectAnswerForAnswerId, null);
+        if(c.moveToFirst()) {
+            AnswerDetails answerDetails = new AnswerDetails();
+            answerDetails.setAnswerId(answerId);
+            answerDetails.setAnswer(c.getString(c.getColumnIndex(KEY_ANSWER)));
+            c.close();
+            return answerDetails.getAnswer();
+        }
+        return null;
     }
 
     public ArrayList<QuizDetails> getAllQuizzes() {

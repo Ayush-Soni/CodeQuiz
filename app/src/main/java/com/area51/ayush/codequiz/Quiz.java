@@ -1,14 +1,19 @@
 package com.area51.ayush.codequiz;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -32,11 +37,14 @@ public class Quiz extends AppCompatActivity {
     int quizId;
     Intent intent;
     DatabaseHelper db;
+    String quizName;
     CollapsingToolbarLayout collapsingToolbarLayout;
     Toolbar toolbar;
     ArrayList<QuizQuestion> allQuestionsForQuiz;
     FloatingActionButton fab;
     FloatingActionButton fab1;
+    int[] answerSelected;
+    boolean[] score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +58,18 @@ public class Quiz extends AppCompatActivity {
         intent = getIntent();
         textView = (TextView) findViewById(R.id.question_text_view);
         quizId = intent.getIntExtra("quizID",0);
+        quizName = db.getQuizName(quizId);
         allQuestionsForQuiz = db.getAllQuestionsOfQuiz(quizId);
-        final int[] answerSelected = new int[allQuestionsForQuiz.size()];
+        answerSelected = new int[allQuestionsForQuiz.size()];
+        score = new boolean[allQuestionsForQuiz.size()];
+        for(int i=0; i<allQuestionsForQuiz.size(); i++) {
+            answerSelected[i] = -1;
+            score[i] = false;
+        }
+
         Log.i("","****************************Question: "+allQuestionsForQuiz.get(currentQuestionNo).getQuestion());
         Log.i("","****************************Current question id: "+ currentQuestionID);
+
         fab = (FloatingActionButton) findViewById(R.id.fabEnd);
         fab1 = (FloatingActionButton) findViewById(R.id.fabStart);
         if(allQuestionsForQuiz.isEmpty()) {
@@ -74,6 +90,14 @@ public class Quiz extends AppCompatActivity {
                 }
                 else{
                     answerSelected[currentQuestionNo]=checkedRadioButtonId;
+                    RadioButton radioButton = (RadioButton) findViewById(checkedRadioButtonId);
+                    String answerString = (String)radioButton.getText();
+                    if(answerString.equals(db.getAnswerForQuestion(currentQuestionID))){
+                        score[currentQuestionNo] = true;
+                    }
+                    else {
+                        score[currentQuestionNo] = false;
+                    }
                 }
                 currentQuestionNo++;
                 if(currentQuestionNo<allQuestionsForQuiz.size()) {
@@ -82,9 +106,14 @@ public class Quiz extends AppCompatActivity {
                     updateQuestion(currentQuestionNo);
                 }
                 else {
-                    Snackbar.make(view, "This is the last question.", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                    //********VIEW RESULT*********
+                    int totalScore = 0;
+                    for(int i=0; i<score.length;i++) {
+                        if(score[i])
+                            totalScore++;
+                    }
+                    //Snackbar.make(view, "Total: "+totalScore+"/"+allQuestionsForQuiz.size(), Snackbar.LENGTH_LONG)
+                    //        .setAction("Action", null).show();
+                    issueNotification(totalScore, allQuestionsForQuiz.size());
                     currentQuestionNo--;
                 }
             }
@@ -132,5 +161,28 @@ public class Quiz extends AppCompatActivity {
         if(currentQuestionNo<allQuestionsForQuiz.size()-1) {
             fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
         }
+        if(answerSelected[currentQuestionNo]!=-1) {
+            RadioButton rbutton = (RadioButton) findViewById(answerSelected[currentQuestionNo]);
+            rbutton.setChecked(true);
+        }
+    }
+
+    public void issueNotification(int totalScore, int totalQuestions) {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.success)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.logomkra))
+                .setContentTitle("Quiz complete")
+                .setContentText("Congratulations on completing the quiz on " + quizName +".")
+                .setSubText("Tap to view result");
+
+        Intent intent = new Intent(getApplicationContext(), DisplayResultActivity.class);
+        intent.putExtra("quizname", quizName);
+        intent.putExtra("totalmarks", totalScore);
+        intent.putExtra("totalquestions", totalQuestions);
+        intent.putExtra("notificationid", 1);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        mBuilder.setContentIntent(pendingIntent);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(1, mBuilder.build());
     }
 }
