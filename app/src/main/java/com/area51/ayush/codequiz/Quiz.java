@@ -29,6 +29,8 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
+
 public class Quiz extends AppCompatActivity {
     RadioGroup radioGroup;
     int currentQuestionID;
@@ -51,6 +53,11 @@ public class Quiz extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         radioGroup = (RadioGroup) findViewById(R.id.optionsRadioGroup);
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById((R.id.toolbar_layout));
         setSupportActionBar(toolbar);
@@ -180,7 +187,7 @@ public class Quiz extends AppCompatActivity {
         intent.putExtra("totalmarks", totalScore);
         intent.putExtra("totalquestions", totalQuestions);
         intent.putExtra("notificationid", 1);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(pendingIntent);
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(1, mBuilder.build());
